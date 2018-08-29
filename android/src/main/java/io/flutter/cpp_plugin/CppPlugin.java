@@ -10,17 +10,12 @@ import java.nio.ByteBuffer;
 public class CppPlugin{
   public static BinaryMessenger sMessenger;
 
-	static {
-		System.loadLibrary("flutter_cpp_plugin");
-	}
-
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) 
   {
     sMessenger=registrar.messenger();
   }
 
-  //
   public static void invokeMethodCall(String channel, ByteBuffer message)
   {
     sMessenger.send(channel,message);
