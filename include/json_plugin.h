@@ -12,7 +12,7 @@ namespace cpp_plugin {
 class JsonPlugin : public Plugin {
  public:
   // See Plugin for constructor details.
-  explicit JsonPlugin(const std::string &channel, bool input_blocking = false);
+  explicit JsonPlugin(const std::string &channel);
   virtual ~JsonPlugin();
 
   // Prevent copying.

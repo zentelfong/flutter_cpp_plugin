@@ -1,25 +1,28 @@
 #include "plugin.h"
 #include "json_method_codec.h"
+#include "plugin_manager.h"
 
 namespace cpp_plugin {
 
-Plugin::Plugin(const std::string &channel, bool input_blocking)
-    : channel_(channel), input_blocking_(input_blocking) {}
 
-Plugin::~Plugin() {}
+Plugin::Plugin(const std::string &channel)
+    : channel_(channel){
+    
+    PluginManager::Instance()->RegisterPlugin(this);
+}
+
+Plugin::~Plugin() {
+    PluginManager::Instance()->UnRegisterPlugin(this);
+}
+
 
 void Plugin::InvokeMethodCall(const MethodCall &method_call) {
 
   std::unique_ptr<std::vector<uint8_t>> message =
       GetCodec().EncodeMethodCall(method_call);
 
-  //FlutterPlatformMessage platform_message_response = {
-  //    .struct_size = sizeof(FlutterPlatformMessage),
-  //    .channel = channel_.c_str(),
-  //    .message = message->data(),
-  //    .message_size = message->size(),
-  //};
-  //FlutterEngineSendPlatformMessage(engine_, &platform_message_response);
+  PluginManager::Instance()->InvokeMethodCall(channel_,message->data(),message->size());
 }
+
 
 }  // namespace cpp_plugin

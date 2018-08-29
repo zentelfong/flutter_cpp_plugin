@@ -1,8 +1,8 @@
 #include "jni_unity.h"
  
-char* jstring2string(JNIEnv* env, jstring jstr)
+std::string jstring2string(JNIEnv* env, jstring jstr)
 {
-	char* rtn = NULL;
+	std::string rtn;
 	jclass clsstring = env->FindClass("java/lang/String");
 	jstring strencode = env->NewStringUTF("utf-8");
 	jmethodID mid = env->GetMethodID(clsstring, "getBytes", "(Ljava/lang/String;)[B");
@@ -12,10 +12,7 @@ char* jstring2string(JNIEnv* env, jstring jstr)
  
 	if (alen > 0)
 	{
-		rtn = (char*)malloc(alen + 1);
- 
-		memcpy(rtn, ba, alen);
-		rtn[alen] = 0;
+		rtn.append((char*)ba,alen);
 	}
 	env->ReleaseByteArrayElements(barr, ba, 0);
 	return rtn;
@@ -31,14 +28,6 @@ jstring char2Jstring(JNIEnv* env, const char* pat)
 	return (jstring)env->NewObject(strClass, ctorID, bytes, encoding);
 }
 
-void* byteBuffer2Cpp(JNIEnv* env,jobject obj,jlong* len)
-{
-	jclass cls = env->GetObjectClass(obj);
-	jfieldID fid = env->GetFieldID(cls, "data","Ljava/nio/ByteBuffer;");
-	jobject bar = env->GetObjectField(obj, fid);
-	*len = env->GetDirectBufferCapacity(bar);
-	return env->GetDirectBufferAddress(bar);
-}
 
 //C++ 和 ByteBuffer 交互
 //jobject NewDirectByteBuffer(void* address, jlong capacity);

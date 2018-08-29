@@ -23,35 +23,25 @@ class Plugin {
   // |input_blocking| Determines whether user input should be blocked during the
   // duration of this plugin's platform callback handler (in most cases this
   // can be set to false).
-  explicit Plugin(const std::string &channel, bool input_blocking = false);
+  explicit Plugin(const std::string &channel);
   virtual ~Plugin();
 
   // Returns the codec to use for this plugin.
   virtual const MethodCodec &GetCodec() const = 0;
 
-  // Handles a method call from Flutter on this platform's channel.
-  //
-  // Implementations must call exactly one of the methods on |result|,
-  // exactly once. Failure to indicate a |result| is a memory leak.
+  //处理dart调用
   virtual void HandleMethodCall(const MethodCall &method_call,
                                 std::unique_ptr<MethodResult> result) = 0;
 
   // Returns the channel on which this plugin listens.
   virtual std::string channel() const { return channel_; }
 
-  // Determines whether this plugin blocks on input while it is running.
-  //
-  // If this is true, then the parent window should  disable input callbacks
-  // while waiting for this plugin to handle its platform message.
-  virtual bool input_blocking() const { return input_blocking_; }
-
  protected:
-  // Calls a method in the Flutter engine on this Plugin's channel.
+  //调用dart接口
   void InvokeMethodCall(const MethodCall &method_call);
 
  private:
   std::string channel_;
-  bool input_blocking_;
 };
 
 }  // namespace cpp_plugin

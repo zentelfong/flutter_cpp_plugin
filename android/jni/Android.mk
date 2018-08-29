@@ -13,10 +13,13 @@ LOCAL_SRC_FILES := cpp_plugin_jni.cpp\
 	../../src/method_codec.cc \
 	../../src/method_result.cc \
 	../../src/plugin.cc \
+	../../src/plugin_manager.cc \
 	../../src/libjson/json_reader.cpp \
 	../../src/libjson/json_value.cpp \
 	../../src/libjson/json_writer.cpp \
 
 LOCAL_C_INCLUDES := ../../include
+
+LOCAL_LDLIBS    := -llog
 
 include $(BUILD_SHARED_LIBRARY)

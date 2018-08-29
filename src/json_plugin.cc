@@ -3,8 +3,8 @@
 
 namespace cpp_plugin {
 
-JsonPlugin::JsonPlugin(const std::string &channel, bool input_blocking)
-    : Plugin(channel, input_blocking) {}
+JsonPlugin::JsonPlugin(const std::string &channel)
+    : Plugin(channel) {}
 
 JsonPlugin::~JsonPlugin() {}
 

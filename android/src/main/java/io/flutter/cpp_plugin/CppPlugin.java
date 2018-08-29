@@ -11,7 +11,7 @@ public class CppPlugin{
   public static BinaryMessenger sMessenger;
 
 	static {
-		System.loadLibrary("cpp_plugin");
+		System.loadLibrary("flutter_cpp_plugin");
 	}
 
   /** Plugin registration. */
@@ -20,21 +20,22 @@ public class CppPlugin{
     sMessenger=registrar.messenger();
   }
 
-  public static void send(String channel, ByteBuffer message)
+  //
+  public static void invokeMethodCall(String channel, ByteBuffer message)
   {
     sMessenger.send(channel,message);
   }
 
-  public static void send2(String channel,ByteBuffer message,long callbackId)
+  //注册插件
+  public static void registerPlugin(String channel)
   {
-    BinaryReply reply=new CppBinaryReply(callbackId);
-    sMessenger.send(channel,message,reply);
-  }  
-
-  public static void setMessageHandler(String channel, long handlerid)
-  {
-    BinaryMessageHandler handler=new CppBinaryMessageHandler(handlerid);
+    BinaryMessageHandler handler=new CppBinaryMessageHandler(channel);
     sMessenger.setMessageHandler(channel,handler);
+  }
+
+  public static void unregisterPlugin(String channel)
+  {
+    sMessenger.setMessageHandler(channel,null);
   }
 
   /** Do not allow direct instantiation. */

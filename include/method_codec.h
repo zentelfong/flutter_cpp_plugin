@@ -38,6 +38,8 @@ class MethodCodec {
       const void *error_details = nullptr) const;
 
  protected:
+  friend class PluginManager;
+
   // Implementations of the public interface, to be provided by subclasses.
   virtual std::unique_ptr<MethodCall> DecodeMethodCallInternal(
       const uint8_t *message, const size_t message_size) const = 0;

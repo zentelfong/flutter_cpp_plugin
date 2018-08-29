@@ -3,17 +3,17 @@ import io.flutter.plugin.common.BinaryMessenger;
 
 class CppBinaryMessageHandler extends BinaryMessenger.BinaryMessageHandler
 {
-    public CppBinaryMessageHandler(long object)
+    public CppBinaryMessageHandler(String channel)
     {
-        mObject=object;
+        mChannel=channel;
     }
     
 
     public void onMessage(ByteBuffer message, BinaryReply reply);
     {
-        onMessage_jni(message,reply);
+        onMessageJni(message,reply);
     }
     
-    public native void onMessage_jni(ByteBuffer message,BinaryReply reply);
-    private final long mObject;
+    public native void onMessageJni(ByteBuffer message,BinaryReply reply);
+    private final String mChannel;
 }
