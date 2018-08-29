@@ -7,12 +7,9 @@ namespace cpp_plugin {
 
 Plugin::Plugin(const std::string &channel)
     : channel_(channel){
-    
-    PluginManager::Instance()->RegisterPlugin(this);
 }
 
 Plugin::~Plugin() {
-    PluginManager::Instance()->UnRegisterPlugin(this);
 }
 
 

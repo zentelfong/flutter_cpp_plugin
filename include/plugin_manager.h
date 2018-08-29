@@ -4,9 +4,7 @@
 #include <map>
 #include <mutex>
 #include <string>
-#include "method_call.h"
-#include "method_codec.h"
-#include "method_result.h"
+#include "plugin.h"
 
 namespace cpp_plugin {
 
@@ -18,6 +16,10 @@ class PluginManager
 public:
     static PluginManager* Instance();
 
+    PluginManager(PluginManager const &) = delete;
+    PluginManager &operator=(PluginManager const &) = delete;
+
+    //注册插件
     virtual void RegisterPlugin(Plugin* plugin);
     virtual void UnRegisterPlugin(Plugin* plugin);
 
@@ -29,10 +31,19 @@ public:
                                   std::unique_ptr<MethodResult> result);
 
     Plugin* GetPlugin(const std::string &channel);
+    
+protected:
+  PluginManager(){
+
+  }
 private:
   std::map<std::string,Plugin*> m_plugins;
   std::mutex m_mutex;
 };
 
 }//namespace
+
+//插件的main函数
+void plugin_main();
+
 #endif

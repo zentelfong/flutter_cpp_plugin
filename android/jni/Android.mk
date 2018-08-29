@@ -17,6 +17,8 @@ LOCAL_SRC_FILES := cpp_plugin_jni.cpp\
 	../../src/libjson/json_reader.cpp \
 	../../src/libjson/json_value.cpp \
 	../../src/libjson/json_writer.cpp \
+	../../example/example.cpp \
+
 
 LOCAL_C_INCLUDES := ../../include
 

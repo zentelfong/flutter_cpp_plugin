@@ -58,21 +58,6 @@ public:
     }
 };
 
-void JNICALL Java_io_flutter_cpp_plugin_CppBinaryMessageHandler_onMessageJni  
-  (JNIEnv *env, jobject jobj,jobject jmsg,jobject jreply)  
-{
-	jclass cls = env->GetObjectClass(jobj);
-	jfieldID fid = env->GetFieldID(cls, "mChannel","Ljava/lang/String;");
-	jstring jchannel = (jstring)env->GetObjectField(jobj, fid);
-    std::string channel = jstring2string(env,jchannel);
-
-    std::unique_ptr<MethodResult> method_result = std::make_unique<MethodResultJni>(channel,env,jreply);
-
-    size_t len = env->GetDirectBufferCapacity(jmsg);
-	const uint8_t* data = (uint8_t*)env->GetDirectBufferAddress(jmsg);
-    PluginManager::Instance()->HandleMethodCall(channel,data,len,std::move(method_result));
-}  
-
 
 class PluginManagerJni:public PluginManager
 {
@@ -84,7 +69,7 @@ public:
     PluginManagerJni(JavaVM* vm,JNIEnv* env)
         :m_vm(vm),m_env(env)
     {
-        m_class = m_env->FindClass("io.flutter.cpp_plugin/CppPlugin");
+        m_class = m_env->FindClass("io.flutter.cppplugin/CppPlugin");
     }
 
     virtual void RegisterPlugin(Plugin* plugin)
@@ -191,4 +176,30 @@ PluginManager* PluginManager::Instance()
 
 }//namespace
 
+using namespace cpp_plugin;
+
+extern "C"
+{
+
+void JNICALL Java_io_flutter_cppplugin_CppBinaryMessageHandler_onMessageJni  
+  (JNIEnv *env, jobject jobj,jobject jmsg,jobject jreply)  
+{
+	jclass cls = env->GetObjectClass(jobj);
+	jfieldID fid = env->GetFieldID(cls, "mChannel","Ljava/lang/String;");
+	jstring jchannel = (jstring)env->GetObjectField(jobj, fid);
+    std::string channel = jstring2string(env,jchannel);
+
+    std::unique_ptr<MethodResult> method_result = std::make_unique<MethodResultJni>(channel,env,jreply);
+
+    size_t len = env->GetDirectBufferCapacity(jmsg);
+	const uint8_t* data = (uint8_t*)env->GetDirectBufferAddress(jmsg);
+    PluginManager::Instance()->HandleMethodCall(channel,data,len,std::move(method_result));
+}  
+
+void JNICALL Java_io_flutter_cppplugin_CppPlugin_mainJni(JNIEnv *,jclass)
+{
+    plugin_main();
+}
+
+}//extern "C"
 

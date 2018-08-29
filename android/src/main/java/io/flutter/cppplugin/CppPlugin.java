@@ -1,4 +1,4 @@
-package io.flutter.cpp_plugin;
+package io.flutter.cppplugin;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -14,6 +14,7 @@ public class CppPlugin{
   public static void registerWith(Registrar registrar) 
   {
     sMessenger=registrar.messenger();
+    mainJni();
   }
 
   public static void invokeMethodCall(String channel, ByteBuffer message)
@@ -35,4 +36,7 @@ public class CppPlugin{
 
   /** Do not allow direct instantiation. */
   private CppPlugin() {}
+
+  //plugin的main函数
+  public static native void mainJni();
 }

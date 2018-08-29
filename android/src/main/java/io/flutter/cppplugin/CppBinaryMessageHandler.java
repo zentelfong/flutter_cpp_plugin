@@ -1,4 +1,4 @@
-package io.flutter.cpp_plugin;
+package io.flutter.cppplugin;
 import io.flutter.plugin.common.BinaryMessenger;
 
 class CppBinaryMessageHandler extends BinaryMessenger.BinaryMessageHandler
@@ -18,5 +18,6 @@ class CppBinaryMessageHandler extends BinaryMessenger.BinaryMessageHandler
     }
     
     public native void onMessageJni(ByteBuffer message,BinaryReply reply);
+    
     private final String mChannel;
 }
