@@ -1,4 +1,5 @@
-#include "BinaryMessenger.h"
+#include "binary_messenger.h"
+#include "jni_unity.h"
 
 namespace cpp_plugin
 {
@@ -25,12 +26,12 @@ public:
 
         // 3、调用clazz类的callStaticMethod静态方法
         jstring jchannel = m_env->NewStringUTF(channel.c_str());
-        jobject jmessage = m_env->NewDirectByteBuffer(message.data(),message.size());
+        jobject jmessage = m_env->NewDirectByteBuffer((void*)message.data(),message.size());
         m_env->CallStaticVoidMethod(m_class,send_method, jchannel, jmessage);
         
         // 删除局部引用
-        m_env->DeleteLocalRef(env,jchannel);
-        m_env->DeleteLocalRef(env,jmessage);
+        m_env->DeleteLocalRef(jchannel);
+        m_env->DeleteLocalRef(jmessage);
     }
 
 
@@ -44,12 +45,12 @@ public:
 
         // 3、调用clazz类的callStaticMethod静态方法
         jstring jchannel = m_env->NewStringUTF(channel.c_str());
-        jobject jmessage = m_env->NewDirectByteBuffer(message.data(),message.size());
+        jobject jmessage = m_env->NewDirectByteBuffer((void*)message.data(),message.size());
         m_env->CallStaticVoidMethod(m_class,send_method, jchannel, jmessage,jlongFromPointer(callback));
         
         // 删除局部引用
-        m_env->DeleteLocalRef(env,jchannel);
-        m_env->DeleteLocalRef(env,jmessage);
+        m_env->DeleteLocalRef(jchannel);
+        m_env->DeleteLocalRef(jmessage);
     }
 
     void setMessageHandler(const std::string& channel, BinaryMessageHandler* handler)
@@ -65,7 +66,7 @@ public:
         m_env->CallStaticVoidMethod(m_class,send_method, jchannel,jlongFromPointer(handler));
         
         // 删除局部引用
-        m_env->DeleteLocalRef(env,jchannel);
+        m_env->DeleteLocalRef(jchannel);
     }
 };
 
@@ -76,7 +77,7 @@ BinaryMessengerAndroid* s_messenger=NULL;
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
     JNIEnv* env = NULL; //注册时在JNIEnv中实现的，所以必须首先获取它
     jint result = -1;
-    if((*vm)->GetEnv(vm, (void**)&env, JNI_VERSION_1_4) != JNI_OK) //从JavaVM获取JNIEnv，一般使用1.4的版本
+    if(vm->GetEnv((void**)&env, JNI_VERSION_1_4) != JNI_OK) //从JavaVM获取JNIEnv，一般使用1.4的版本
       return -1;
 
     s_messenger = new BinaryMessengerAndroid(env);

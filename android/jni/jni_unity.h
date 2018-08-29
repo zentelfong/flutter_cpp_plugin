@@ -2,6 +2,7 @@
 #include <jni.h>
 #include <stdint.h>
 #include <assert.h>
+#include <stdlib.h>
 
 inline jlong jlongFromPointer(void* ptr) {
   // Going through intptr_t to be obvious about the definedness of the

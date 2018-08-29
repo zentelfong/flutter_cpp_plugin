@@ -1,5 +1,5 @@
 #pragma once
-#include "Common.h"
+#include "common.h"
 
 namespace cpp_plugin
 {
@@ -53,7 +53,7 @@ class BinaryMessenger {
      * @param message the message payload, a direct-allocated {@link ByteBuffer} with the message bytes
      * between position zero and current position, or null.
      */
-    virtual void send(const std::string& channel,const std::vector<uint8_t>& message);
+    virtual void send(const std::string& channel,const std::vector<uint8_t>& message) =0;
 
     /**
      * Sends a binary message to the Flutter application, optionally expecting a reply.
@@ -66,7 +66,7 @@ class BinaryMessenger {
      * @param callback a {@link BinaryReply} callback invoked when the Flutter application responds to the
      * message, possibly null.
      */
-    virtual void send(const std::string& channel, const std::vector<uint8_t>& message, BinaryReply* callback);
+    virtual void send(const std::string& channel, const std::vector<uint8_t>& message, BinaryReply* callback) =0;
 
     /**
      * Registers a handler to be invoked when the Flutter application sends a message
@@ -81,7 +81,7 @@ class BinaryMessenger {
      * @param channel the name {@link String} of the channel.
      * @param handler a {@link BinaryMessageHandler} to be invoked on incoming messages, or null.
      */
-    virtual void setMessageHandler(const std::string& channel, BinaryMessageHandler* handler);
+    virtual void setMessageHandler(const std::string& channel, BinaryMessageHandler* handler) =0;
 
 };
 
