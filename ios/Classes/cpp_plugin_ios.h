@@ -4,5 +4,9 @@
 
 #import <Flutter/Flutter.h>
 
-@interface FLTCppPlugin : NSObject<FlutterPlugin>
+@interface FLTCppPlugin : NSObject
+
++ (FLTCppPlugin *) getInstance;
+
+- (void)initPlugin:(FlutterBinaryMessenger*) messenger;
 @end
