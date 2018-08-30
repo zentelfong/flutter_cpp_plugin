@@ -226,7 +226,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
 
 
 void JNICALL Java_io_flutter_cppplugin_CppBinaryMessageHandler_onMessageJni  
-  (JNIEnv *env, jobject jobj,jobject jmsg,jobject jreply)  
+  (JNIEnv *env, jobject jobj,jbyteArray jmsg,jobject jreply)  
 {
 	jclass cls = env->GetObjectClass(jobj);
 	jfieldID fid = env->GetFieldID(cls, "mChannel","Ljava/lang/String;");
@@ -235,9 +235,13 @@ void JNICALL Java_io_flutter_cppplugin_CppBinaryMessageHandler_onMessageJni
 
     std::unique_ptr<MethodResult> method_result = std::make_unique<MethodResultJni>(channel,env,jreply);
 
-    size_t len = env->GetDirectBufferCapacity(jmsg);
-	const uint8_t* data = (uint8_t*)env->GetDirectBufferAddress(jmsg);
-    PluginManager::Instance()->HandleMethodCall(channel,data,len,std::move(method_result));
+    jbyte* data = env->GetByteArrayElements(jmsg, 0);
+    jsize len  = env->GetArrayLength(jmsg);
+
+    LOGI("RecvMsg %s",data);
+    PluginManager::Instance()->HandleMethodCall(channel,(uint8_t*)data,len,std::move(method_result));
+
+    env->ReleaseByteArrayElements(jmsg,data,0);
 }  
 
 void JNICALL Java_io_flutter_cppplugin_CppPlugin_mainJni(JNIEnv *,jclass)

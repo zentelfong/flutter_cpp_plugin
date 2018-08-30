@@ -13,10 +13,17 @@ class CppBinaryMessageHandler implements BinaryMessageHandler
     
     public void onMessage(ByteBuffer message, BinaryReply reply)
     {
-        onMessageJni(message,reply);
+        if(message.hasArray())
+            onMessageJni(message.array(),reply);
+        else
+        {
+            byte[] b = new byte[message.capacity()];
+            message.get(b, 0, b.length);
+            onMessageJni(b,reply);
+        }
     }
     
-    public native void onMessageJni(ByteBuffer message,BinaryReply reply);
+    public native void onMessageJni(byte[] message,BinaryReply reply);
     
     private final String mChannel;
 }
