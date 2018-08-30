@@ -20,6 +20,7 @@ public:
 
     void Reply(const uint8_t* data,size_t len)
     {
+        LOGI("reply %s",data);
         jclass cls = m_env->GetObjectClass(m_object);   
         jmethodID callback = m_env->GetMethodID(cls,"reply","(Ljava/nio/ByteBuffer;)V");  
 

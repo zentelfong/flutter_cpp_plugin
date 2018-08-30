@@ -33,3 +33,5 @@
 
 libs/
 obj/
+build/
+.gradle/
