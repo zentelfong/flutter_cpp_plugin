@@ -1,18 +1,17 @@
 package io.flutter.cppplugin;
+import java.nio.ByteBuffer;
 import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.plugin.common.BinaryMessenger.BinaryReply;
+import io.flutter.plugin.common.BinaryMessenger.BinaryMessageHandler;
 
-class CppBinaryMessageHandler extends BinaryMessenger.BinaryMessageHandler
-{
-	static {
-		System.loadLibrary("flutter_cpp_plugin");
-	}	
-	
+class CppBinaryMessageHandler implements BinaryMessageHandler
+{	
     public CppBinaryMessageHandler(String channel)
     {
         mChannel=channel;
     }
     
-    public void onMessage(ByteBuffer message, BinaryReply reply);
+    public void onMessage(ByteBuffer message, BinaryReply reply)
     {
         onMessageJni(message,reply);
     }

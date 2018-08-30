@@ -63,92 +63,135 @@ class PluginManagerJni:public PluginManager
 {
 private:
     JavaVM* m_vm;
-    JNIEnv *m_env;
-    jclass m_class;
 public:
     PluginManagerJni(JavaVM* vm,JNIEnv* env)
-        :m_vm(vm),m_env(env)
+        :m_vm(vm)
     {
-        m_class = m_env->FindClass("io.flutter.cppplugin/CppPlugin");
+        
     }
+
+    JNIEnv* GetEnv(bool &isAttacked){
+        JNIEnv* env=NULL;
+        int status = m_vm->GetEnv((void **) &env, JNI_VERSION_1_4);
+        if(status < 0) {
+            LOGI("callback_handler:failed to get JNI environment assuming native thread"); 
+            status = m_vm->AttachCurrentThread(&env, NULL);
+            if(status < 0) {
+                LOGE("callback_handler: failed to attach current thread");
+                return NULL;
+            }
+            isAttacked = true;
+        }
+        return env;
+    }
+
+
 
     virtual void RegisterPlugin(Plugin* plugin)
     {
         PluginManager::RegisterPlugin(plugin);
 
-        int status = m_vm->AttachCurrentThread(&m_env, NULL);
-        if(status<0)
-        {
-            LOGE("callback_handler: failed to attach current thread");
+        LOGI("RegisterPlugin %s",plugin->channel().c_str());
+        bool  isAttacked = false;
+        JNIEnv* env = GetEnv(isAttacked);
+        if(!env)
             return;
-        }
-        
-        jmethodID register_method = m_env->GetStaticMethodID(m_class,"registerPlugin","(Ljava/lang/String)V");
+
+        jclass jclass = env->FindClass("io/flutter/cppplugin/CppPlugin");
+        if(!jclass)
+            LOGE("cant find class CppPlugin");
+
+        jmethodID register_method = env->GetStaticMethodID(jclass,"registerPlugin","(Ljava/lang/String;)V");
         if (register_method == NULL) {
-            m_vm->DetachCurrentThread();
+            LOGE("cant find registerPlugin");
+            if(isAttacked)
+                m_vm->DetachCurrentThread();
             return;
         }
 
         // 3、调用clazz类的callStaticMethod静态方法
-        jstring jchannel = m_env->NewStringUTF(plugin->channel().c_str());
-        m_env->CallStaticVoidMethod(m_class,register_method, jchannel);
-        
-        // 删除局部引用
-        m_env->DeleteLocalRef(jchannel); 
+        jstring jchannel = env->NewStringUTF(plugin->channel().c_str());
+        env->CallStaticVoidMethod(jclass,register_method, jchannel);
+        LOGI("call CppPlugin.registerPlugin");
 
-        m_vm->DetachCurrentThread();
+        // 删除局部引用
+        env->DeleteLocalRef(jchannel); 
+        env->DeleteLocalRef(jclass);
+
+        LOGI("RegisterPlugin finish");
+
+        if(isAttacked)
+            m_vm->DetachCurrentThread();
     }
 
     virtual void UnRegisterPlugin(Plugin* plugin)
     {
         PluginManager::UnRegisterPlugin(plugin);
-        int status = m_vm->AttachCurrentThread(&m_env, NULL);
-        if(status<0)
-        {
-            LOGE("callback_handler: failed to attach current thread");
+
+        LOGI("UnRegisterPlugin %s",plugin->channel().c_str());
+
+        bool isAttacked = false;
+        JNIEnv* env = GetEnv(isAttacked);
+        if(!env)
             return;
-        }
-        
-        jmethodID register_method = m_env->GetStaticMethodID(m_class,"unregisterPlugin","(Ljava/lang/String)V");
+
+        jclass jclass = env->FindClass("io/flutter/cppplugin/CppPlugin");
+        if(!jclass)
+            LOGE("cant find class CppPlugin");
+
+        jmethodID register_method = env->GetStaticMethodID(jclass,"unregisterPlugin","(Ljava/lang/String;)V");
         if (register_method == NULL) {
-            m_vm->DetachCurrentThread();
+            LOGE("cant find unregisterPlugin");
+            if(isAttacked)
+                m_vm->DetachCurrentThread();
             return;
         }
 
         // 3、调用clazz类的callStaticMethod静态方法
-        jstring jchannel = m_env->NewStringUTF(plugin->channel().c_str());
-        m_env->CallStaticVoidMethod(m_class,register_method, jchannel);
+        jstring jchannel = env->NewStringUTF(plugin->channel().c_str());
+        env->CallStaticVoidMethod(jclass,register_method, jchannel);
         
         // 删除局部引用
-        m_env->DeleteLocalRef(jchannel);
-        m_vm->DetachCurrentThread();
+        env->DeleteLocalRef(jchannel);
+        env->DeleteLocalRef(jclass);
+
+        if(isAttacked)
+            m_vm->DetachCurrentThread();
     }
 
     virtual void InvokeMethodCall(const std::string &channel,const uint8_t* data,size_t len)
     {
-        int status = m_vm->AttachCurrentThread(&m_env, NULL);
-        if(status<0)
-        {
-            LOGE("callback_handler: failed to attach current thread");
+        LOGI("InvokeMethodCall %s",channel.c_str());
+        
+        bool isAttacked = false;
+        JNIEnv* env = GetEnv(isAttacked);
+        if(!env)
             return;
-        }
+
+        jclass jclass = env->FindClass("io/flutter/cppplugin/CppPlugin");
+        if(!jclass)
+            LOGE("cant find class CppPlugin");
 
         // 2、从clazz类中查找send方法
-        jmethodID send_method = m_env->GetStaticMethodID(m_class,"invokeMethodCall","(Ljava/lang/String;Ljava.nio.ByteBuffer)V");
+        jmethodID send_method = env->GetStaticMethodID(jclass,"invokeMethodCall","(Ljava/lang/String;Ljava.nio.ByteBuffer;)V");
         if (send_method == NULL) {
-            m_vm->DetachCurrentThread();
+            if(isAttacked)
+                m_vm->DetachCurrentThread();
             return;
         }
 
         // 3、调用clazz类的callStaticMethod静态方法
-        jstring jchannel = m_env->NewStringUTF(channel.c_str());
-        jobject jmessage = m_env->NewDirectByteBuffer((void*)data,len);
-        m_env->CallStaticVoidMethod(m_class,send_method, jchannel, jmessage);
+        jstring jchannel = env->NewStringUTF(channel.c_str());
+        jobject jmessage = env->NewDirectByteBuffer((void*)data,len);
+        env->CallStaticVoidMethod(jclass,send_method, jchannel, jmessage);
         
         // 删除局部引用
-        m_env->DeleteLocalRef(jchannel);
-        m_env->DeleteLocalRef(jmessage);
-        m_vm->DetachCurrentThread();
+        env->DeleteLocalRef(jchannel);
+        env->DeleteLocalRef(jmessage);
+        env->DeleteLocalRef(jclass);
+
+        if(isAttacked)
+            m_vm->DetachCurrentThread();
     }
 
 };
@@ -156,17 +199,6 @@ public:
 
 
 PluginManagerJni* s_manager=NULL;
-
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
-    JNIEnv* env = NULL;
-    jint result = -1;
-    if(vm->GetEnv((void**)&env, JNI_VERSION_1_4) != JNI_OK)
-      return -1;
-
-    s_manager = new PluginManagerJni(vm,env);
-    return JNI_VERSION_1_4;
-}
-
 
 PluginManager* PluginManager::Instance()
 {
@@ -180,6 +212,18 @@ using namespace cpp_plugin;
 
 extern "C"
 {
+
+
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
+    JNIEnv* env = NULL;
+    jint result = -1;
+    if(vm->GetEnv((void**)&env, JNI_VERSION_1_4) != JNI_OK)
+      return -1;
+
+    s_manager = new PluginManagerJni(vm,env);
+    return JNI_VERSION_1_4;
+}
+
 
 void JNICALL Java_io_flutter_cppplugin_CppBinaryMessageHandler_onMessageJni  
   (JNIEnv *env, jobject jobj,jobject jmsg,jobject jreply)  

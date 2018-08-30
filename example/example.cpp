@@ -15,7 +15,11 @@ public:
   virtual void HandleJsonMethodCall(const JsonMethodCall &method_call,
         std::unique_ptr<MethodResult> result)
   {
-
+    if(method_call.method_name() == "hello")
+    {
+      Json::Value value("world");
+      result->Success(&value);
+    }
   }
 };
 

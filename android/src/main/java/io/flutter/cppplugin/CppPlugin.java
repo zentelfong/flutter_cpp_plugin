@@ -1,42 +1,61 @@
 package io.flutter.cppplugin;
 
-import io.flutter.plugin.common.MethodCall;
-import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
+import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.plugin.common.BinaryMessenger.BinaryMessageHandler;
 import java.nio.ByteBuffer;
 
 public class CppPlugin{
+
+	static {
+		System.loadLibrary("flutter_cpp_plugin");
+	}	
+
   public static BinaryMessenger sMessenger;
 
   /** Plugin registration. */
-  public static void registerWith(Registrar registrar) 
-  {
+  public static void registerWith(PluginRegistry registry) {
+    if (alreadyRegisteredWith(registry)) {
+      return;
+    }
+  }
+
+  private static boolean alreadyRegisteredWith(PluginRegistry registry) {
+    final String key = CppPlugin.class.getCanonicalName();
+    if (registry.hasPlugin(key)) {
+      return true;
+    }
+    Registrar registrar = registry.registrarFor(key);
     sMessenger=registrar.messenger();
     mainJni();
+    return false;
   }
+
 
   public static void invokeMethodCall(String channel, ByteBuffer message)
   {
     sMessenger.send(channel,message);
   }
 
-  //注册插件
+
   public static void registerPlugin(String channel)
   {
-    BinaryMessageHandler handler=new CppBinaryMessageHandler(channel);
-    sMessenger.setMessageHandler(channel,handler);
+    if(channel!=null)
+    {
+      BinaryMessageHandler handler=new CppBinaryMessageHandler(channel);
+      sMessenger.setMessageHandler(channel,handler);
+    }
   }
 
   public static void unregisterPlugin(String channel)
   {
-    sMessenger.setMessageHandler(channel,null);
+    if(channel!=null)
+      sMessenger.setMessageHandler(channel,null);
   }
 
   /** Do not allow direct instantiation. */
   private CppPlugin() {}
 
-  //plugin的main函数
   public static native void mainJni();
 }
