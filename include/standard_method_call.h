@@ -10,7 +10,6 @@ namespace cpp_plugin {
 
 class StandardMethodCall : public MethodCall {
 public:
-
 	explicit StandardMethodCall(const std::string &method_name, 
 		std::unique_ptr<StandardValue> arguments);
 	~StandardMethodCall();

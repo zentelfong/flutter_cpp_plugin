@@ -188,20 +188,20 @@ public:
 	{
 	}
 
-	int readSize() {
-		int value = data_[current_]; ++current_;
+	size_t readSize() {
+		size_t value = data_[current_]; ++current_;
 		if (value < 254) {
 			return value;
 		}
 		else if (value == 254) {
-			return getChar();
+			return (size_t)getChar();
 		}
 		else {
-			return getInt();
+			return (size_t)getInt();
 		}
 	}
 
-	const uint8_t* readBytes(int &len) {
+	const uint8_t* readBytes(size_t &len) {
 		len = readSize();
 		const uint8_t* data = data_ + current_;
 		current_ += len;
@@ -228,13 +228,34 @@ public:
 
 	int getInt() {
 		int ch = data_[current_]; ++current_;
-		ch |= data_[current_] << 8; ++current_;
-		ch |= data_[current_] << 16; ++current_;
-		ch |= data_[current_] << 24; ++current_;
+		ch |= int(data_[current_]) << 8; ++current_;
+		ch |= int(data_[current_]) << 16; ++current_;
+		ch |= int(data_[current_]) << 24; ++current_;
 		return ch;
 	}
 
+	int64_t getLong() {
+		int64_t ch = data_[current_]; ++current_;
+		ch |= int64_t(data_[current_]) << 8; ++current_;
+		ch |= int64_t(data_[current_]) << 16; ++current_;
+		ch |= int64_t(data_[current_]) << 24; ++current_;
+		ch |= int64_t(data_[current_]) << 32; ++current_;
+		ch |= int64_t(data_[current_]) << 40; ++current_;
+		ch |= int64_t(data_[current_]) << 48; ++current_;
+		ch |= int64_t(data_[current_]) << 56; ++current_;
+		return ch;
+	}
+
+	double getDouble() {
+		int64_t value = getLong();
+		return *(double*)&value;
+	}
+
 	size_t current() { return current_; }
+
+	void offset(size_t off) {
+		current_ += off;
+	}
 private:
 	const uint8_t *data_;
 	size_t size_;
@@ -244,19 +265,120 @@ private:
 
 
 size_t StandardValue::ReadValue(const uint8_t *message, const size_t size) {
-	Release();
-
+	
 	ReadBuffer buffer(message,size);
 	uint8_t type = buffer.getByte();
+
 	switch (type)
 	{
+	case TYPE_NULL:
+		Release();
+		break;
 	case TYPE_TRUE:
 		fromBool(true);
 		break;
 	case TYPE_FALSE:
 		fromBool(false);
 		break;
+	case TYPE_INT:
+		fromInt(buffer.getInt());
+		break;
+	case TYPE_LONG:
+		fromInt64(buffer.getLong());
+		break;
+	case TYPE_DOUBLE:
+		buffer.readAlignment(8);
+		fromDouble(buffer.getDouble());
+		break;
+	case TYPE_STRING:
+		{
+			size_t len = 0;
+			const char* str=(char*)buffer.readBytes(len);
+			fromString(str, len);
+		}
+		break;
+	case TYPE_BYTE_ARRAY:
+		{
+			size_t len = 0;
+			const uint8_t* data = buffer.readBytes(len);
+			fromUint8List(data, len);
+		}
+		break;
+	case TYPE_INT_ARRAY:
+		{
+			Release();
+			size_t length = buffer.readSize();
+			buffer.readAlignment(4);
+			type_ = TYPE_INT_ARRAY;
+			data_.int32list_value = new std::vector<int32_t>(length, 0);
 
+			for (size_t i = 0; i < length; i++)
+			{
+				(*data_.int32list_value)[i]=buffer.getInt();
+			}
+		}
+		break;
+	case TYPE_LONG_ARRAY:
+		{
+			Release();
+			size_t length = buffer.readSize();
+			buffer.readAlignment(8);
+			type_ = TYPE_LONG_ARRAY;
+			data_.int64list_value = new std::vector<int64_t>(length, 0);
+
+			for (size_t i = 0; i < length; i++)
+			{
+				(*data_.int64list_value)[i] = buffer.getLong();
+			}
+		}
+		break;
+	case TYPE_DOUBLE_ARRAY:
+		{
+			Release();
+			size_t length = buffer.readSize();
+			buffer.readAlignment(8);
+			type_ = TYPE_DOUBLE_ARRAY;
+			data_.doublelist_value = new std::vector<double>(length, 0);
+
+			for (size_t i = 0; i < length; i++)
+			{
+				(*data_.doublelist_value)[i] = buffer.getDouble();
+			}
+		}
+		break;
+	case TYPE_LIST:
+		{
+			Release();
+			size_t length = buffer.readSize();
+			type_ = TYPE_LIST;
+			data_.list_value = new std::vector<StandardValue*>(length, 0);
+
+			for (size_t i = 0; i < length; i++)
+			{
+				StandardValue* value = new StandardValue();
+				buffer.offset(value->ReadValue(message+buffer.current(),size - buffer.current()));
+				(*data_.list_value)[i] = value;
+			}
+		}
+		break;
+	case TYPE_MAP:
+		{
+			Release();
+			int length = buffer.readSize();
+			type_ = TYPE_MAP;
+			data_.map_value = new std::map<std::string,StandardValue*>();
+
+			for (int i = 0; i < length; i++)
+			{
+				StandardValue key;
+				buffer.offset(key.ReadValue(message + buffer.current(), size - buffer.current()));
+
+				StandardValue* value = new StandardValue();
+				buffer.offset(value->ReadValue(message + buffer.current(), size - buffer.current()));
+				(*data_.map_value)[*key.asString()] = value;
+			}
+		}
+		break;
 	default:
 		break;
 	}

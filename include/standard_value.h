@@ -97,12 +97,63 @@ public:
 		data_.int64_value = value;
 	}
 
+	void fromDouble(double value) {
+		Release();
+		type_ = TYPE_DOUBLE;
+		data_.double_value = value;
+	}
+
 	void fromString(const std::string& value) {
 		Release();
 		type_ = TYPE_STRING;
 		data_.string_value = new std::string(value);
 	}
 
+	void fromString(const char* value,size_t len) {
+		Release();
+		type_ = TYPE_STRING;
+		data_.string_value = new std::string(value,len);
+	}
+
+	void fromUint8List(const uint8_t* data,size_t len) {
+		Release();
+		type_ = TYPE_BYTE_ARRAY;
+		data_.uint8list_value = new std::vector<uint8_t>(len,0);
+		for (size_t i = 0; i < len; i++)
+		{
+			(*data_.uint8list_value)[i] = data[i];
+		}
+	}
+
+	void fromInt32List(const int32_t* data, size_t len) {
+		Release();
+		type_ = TYPE_INT_ARRAY;
+		data_.int32list_value = new std::vector<int32_t>(len, 0);
+		for (size_t i = 0; i < len; i++)
+		{
+			(*data_.int32list_value)[i] = data[i];
+		}
+	}
+
+	void fromInt64List(const int64_t* data, size_t len) {
+		Release();
+		type_ = TYPE_LONG_ARRAY;
+		data_.int64list_value = new std::vector<int64_t>(len, 0);
+		for (size_t i = 0; i < len; i++)
+		{
+			(*data_.int64list_value)[i] = data[i];
+		}
+	}
+
+	void fromDoubleList(const double* data, size_t len) {
+		Release();
+		type_ = TYPE_LONG_ARRAY;
+		data_.doublelist_value = new std::vector<double>(len, 0);
+		for (size_t i = 0; i < len; i++)
+		{
+			(*data_.doublelist_value)[i] = data[i];
+		}
+	}
 
 	//¶ÁÐ´
 	void WriteValue(std::vector<uint8_t>& dest);
