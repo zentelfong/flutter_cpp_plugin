@@ -10,30 +10,43 @@ class MethodResultJni:public MethodResult
 private:
     JNIEnv *m_env;
     jobject m_object;
+    jobject m_reply;
     Plugin* m_plugin;
 public:
-    MethodResultJni(const std::string& channel,JNIEnv* env,jobject obj)
-        :m_env(env),m_object(obj)
+    MethodResultJni(const std::string& channel,JNIEnv* env,jobject obj,jobject reply)
+        :m_env(env),m_object(obj),m_reply(reply)
     {
         m_plugin=PluginManager::Instance()->GetPlugin(channel);
     }
 
     void Reply(const uint8_t* data,size_t len)
     {
-        LOGI("reply %s",data);
-        jclass cls = m_env->GetObjectClass(m_object);   
-        jmethodID callback = m_env->GetMethodID(cls,"reply","(Ljava/nio/ByteBuffer;)V");  
+        jclass replycls = m_env->GetObjectClass(m_reply);   
+        jmethodID callback = m_env->GetMethodID(replycls,"reply","(Ljava/nio/ByteBuffer;)V");  
 
         if(data)
         {
-            jobject jmessage = m_env->NewDirectByteBuffer((void*)data,len);
-            m_env->CallVoidMethod(m_object,callback,jmessage);
+            jclass cls = m_env->GetObjectClass(m_object);  
+            jmethodID convertDataMethod = m_env->GetMethodID(cls,"convertData","([B)Ljava/nio/ByteBuffer;");
+
+            jbyteArray arrayData =m_env->NewByteArray(len);
+            m_env->SetByteArrayRegion(arrayData, 0, len, (jbyte*)data);
+
+            jobject jmessage = m_env->CallObjectMethod(m_object,convertDataMethod,arrayData);
+
+            //jobject jmessage = m_env->NewDirectByteBuffer((void*)data,(jlong)len);
+
+            m_env->CallVoidMethod(m_reply,callback,jmessage);
             m_env->DeleteLocalRef(jmessage);
+            m_env->DeleteLocalRef(arrayData);
+
+            m_env->DeleteLocalRef(cls);
         }
         else
         {
             m_env->CallVoidMethod(m_object,callback);
         }
+        m_env->DeleteLocalRef(replycls); 
     }
 
     virtual void SuccessInternal(const void *result)
@@ -234,7 +247,7 @@ void JNICALL Java_io_flutter_cppplugin_CppBinaryMessageHandler_onMessageJni
 	jstring jchannel = (jstring)env->GetObjectField(jobj, fid);
     std::string channel = jstring2string(env,jchannel);
 
-    std::unique_ptr<MethodResult> method_result = std::make_unique<MethodResultJni>(channel,env,jreply);
+    std::unique_ptr<MethodResult> method_result = std::make_unique<MethodResultJni>(channel,env,jobj,jreply);
 
     jbyte* data = env->GetByteArrayElements(jmsg, 0);
     jsize len  = env->GetArrayLength(jmsg);

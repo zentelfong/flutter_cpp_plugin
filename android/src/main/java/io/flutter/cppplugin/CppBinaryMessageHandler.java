@@ -10,7 +10,14 @@ class CppBinaryMessageHandler implements BinaryMessageHandler
     {
         mChannel=channel;
     }
-    
+
+    public ByteBuffer convertData(byte[] bytes) {
+        final ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
+        buffer.put(bytes);
+        return buffer;
+    }
+
+
     public void onMessage(ByteBuffer message, BinaryReply reply)
     {
         if(message.hasArray())
