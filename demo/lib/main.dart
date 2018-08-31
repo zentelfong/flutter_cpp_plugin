@@ -16,7 +16,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
   static const MethodChannel methodChannel =
       const MethodChannel('cppplugins.flutter.io/test_plugin',JSONMethodCodec());
   static const EventChannel eventChannel =
-      const EventChannel('samples.flutter.io/charging');
+      const EventChannel('cppplugins.flutter.io/test_plugin',JSONMethodCodec());
 
   String _batteryLevel = 'Battery level: unknown.';
   String _chargingStatus = 'Battery status: unknown.';
@@ -25,7 +25,9 @@ class _PlatformChannelState extends State<PlatformChannel> {
     String batteryLevel;
     try {
       final String result = await methodChannel.invokeMethod('hello');
-      batteryLevel = 'Battery level: $result%.';
+      batteryLevel = 'Battery level: $result';
+
+
     } on PlatformException {
       batteryLevel = 'Failed to get battery level.';
     }
@@ -37,13 +39,20 @@ class _PlatformChannelState extends State<PlatformChannel> {
   @override
   void initState() {
     super.initState();
-    eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
+
+    methodChannel.setMethodCallHandler((MethodCall call){
+      print("call from cpp plugin");
+      print(call.method);
+      print(call.arguments);
+    });
+
+    //eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
   }
 
   void _onEvent(Object event) {
     setState(() {
       _chargingStatus =
-          "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
+          "Battery status: ${event == 'test' ? '' : 'dis'}charging.";
     });
   }
 

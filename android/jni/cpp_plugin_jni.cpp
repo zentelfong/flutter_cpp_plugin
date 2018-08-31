@@ -34,6 +34,7 @@ public:
 
             jobject jmessage = m_env->CallObjectMethod(m_object,convertDataMethod,arrayData);
 
+            //NewDirectByteBuffer接口有内存释放问题，故使用java进行生成
             //jobject jmessage = m_env->NewDirectByteBuffer((void*)data,(jlong)len);
 
             m_env->CallVoidMethod(m_reply,callback,jmessage);
@@ -187,8 +188,9 @@ public:
             LOGE("cant find class CppPlugin");
 
         // 2、从clazz类中查找send方法
-        jmethodID send_method = env->GetStaticMethodID(jclass,"invokeMethodCall","(Ljava/lang/String;Ljava.nio.ByteBuffer;)V");
+        jmethodID send_method = env->GetStaticMethodID(jclass,"invokeMethodCall","(Ljava/lang/String;[B)V");
         if (send_method == NULL) {
+            LOGE("cant find invokeMethodCall");
             if(isAttacked)
                 m_vm->DetachCurrentThread();
             return;
@@ -196,7 +198,11 @@ public:
 
         // 3、调用clazz类的callStaticMethod静态方法
         jstring jchannel = env->NewStringUTF(channel.c_str());
-        jobject jmessage = env->NewDirectByteBuffer((void*)data,len);
+        //jobject jmessage = env->NewDirectByteBuffer((void*)data,len);
+
+        jbyteArray jmessage =env->NewByteArray(len);
+        env->SetByteArrayRegion(jmessage, 0, len, (jbyte*)data);
+
         env->CallStaticVoidMethod(jclass,send_method, jchannel, jmessage);
         
         // 删除局部引用
@@ -245,6 +251,7 @@ void JNICALL Java_io_flutter_cppplugin_CppBinaryMessageHandler_onMessageJni
 	jclass cls = env->GetObjectClass(jobj);
 	jfieldID fid = env->GetFieldID(cls, "mChannel","Ljava/lang/String;");
 	jstring jchannel = (jstring)env->GetObjectField(jobj, fid);
+    env->DeleteLocalRef(cls);
     std::string channel = jstring2string(env,jchannel);
 
     std::unique_ptr<MethodResult> method_result = std::make_unique<MethodResultJni>(channel,env,jobj,jreply);

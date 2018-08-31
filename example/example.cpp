@@ -19,6 +19,9 @@ public:
     {
       Json::Value value("world");
       result->Success(&value);
+
+      //调用dart
+      InvokeMethod("test",value);
     }
   }
 };
