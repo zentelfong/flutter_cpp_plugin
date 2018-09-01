@@ -10,7 +10,7 @@ project "flutter_cpp_plugin"
 	language "C++"
 	kind "StaticLib"
 	includedirs { "include"}
-	files { "include/**.h","src/**.cpp","src/**.cc" }
+	files { "include/**.h","src/**.cpp","src/**.cc","example/**.cpp" }
 	targetdir("build")
 	defines { "_CRT_SECURE_NO_WARNINGS" }
 	

@@ -24,7 +24,13 @@ std::unique_ptr<MethodCall> StandardMethodCodec::DecodeMethodCallInternal(
 std::unique_ptr<std::vector<uint8_t>> StandardMethodCodec::EncodeMethodCallInternal(
 	const MethodCall &method_call) const {
 	std::unique_ptr<std::vector<uint8_t>> data = std::make_unique<std::vector<uint8_t>>();
-	data->push_back(0);
+
+	//write method
+	StandardValue method;
+	method.fromString(method_call.method_name());
+	method.WriteValue(*data);
+
+	//write arguments
 	StandardValue* pvalue = (StandardValue*)method_call.arguments();
 	if (pvalue)
 		pvalue->WriteValue(*data);

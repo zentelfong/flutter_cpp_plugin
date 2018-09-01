@@ -9,6 +9,10 @@ LOCAL_SRC_FILES := cpp_plugin_jni.cpp\
     ../../src/json_method_call.cc \
 	../../src/json_method_codec.cc \
 	../../src/json_plugin.cc \
+    ../../src/standard_method_call.cc \
+	../../src/standard_method_codec.cc \
+	../../src/standard_plugin.cc \
+	../../src/standard_value.cc \
 	../../src/method_call.cc \
 	../../src/method_codec.cc \
 	../../src/method_result.cc \

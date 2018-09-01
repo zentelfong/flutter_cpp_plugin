@@ -16,7 +16,7 @@ StandardMethodCall::~StandardMethodCall()
 
 const void *StandardMethodCall::arguments() const
 {
-	return &arguments_;
+	return arguments_.get();
 }
 
 const StandardValue *StandardMethodCall::GetArgumentsAsValue() const

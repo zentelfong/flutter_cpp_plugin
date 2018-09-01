@@ -7,6 +7,7 @@
 #include <list>
 #include <stdint.h>
 #include <string.h>
+#include <memory>
 
 /*
 null: NULL
@@ -63,97 +64,52 @@ public:
 
 
 	Type type() const { return type_; }
-	bool asBool()const{
-		return type_==TYPE_TRUE; 
-	}
-	int asInt()const { return data_.int_value; }
-	int64_t asInt64()const { return data_.int64_value; }
-	double asDouble()const { return data_.double_value; }
-	std::string* asString()const { return data_.string_value; }
-	std::vector<uint8_t>* asUint8List()const { return data_.uint8list_value; }
-	std::vector<int32_t>* asInt32List()const { return data_.int32list_value; }
-	std::vector<int64_t>* asInt64List()const { return data_.int64list_value; }
-	std::vector<double>* asDoubleList()const { return data_.doublelist_value; }
-	std::vector<StandardValue*>* asList()const { return data_.list_value; }
-	std::map<std::string, StandardValue*>* asMap()const { return data_.map_value; }
 
-	void fromBool(bool value) {
-		Release();
-		if (value)
-			type_ = TYPE_TRUE;
-		else
-			type_ = TYPE_FALSE;
-	}
+	bool asBool()const;
 
-	void fromInt(int value) {
-		Release();
-		type_ = TYPE_INT;
-		data_.int_value = value;
-	}
+	int asInt()const;
 
-	void fromInt64(int64_t value) {
-		Release();
-		type_ = TYPE_LONG;
-		data_.int64_value = value;
-	}
+	int64_t asInt64()const;
+	double asDouble()const;
+	std::string* asString()const;
+	std::vector<uint8_t>* asUint8List()const;
+	std::vector<int32_t>* asInt32List()const;
+	std::vector<int64_t>* asInt64List()const;
+	std::vector<double>* asDoubleList()const;
+	std::vector<std::shared_ptr<StandardValue>>* asList()const;
+	std::map<std::string, std::shared_ptr<StandardValue>>* asMap()const;
 
-	void fromDouble(double value) {
-		Release();
-		type_ = TYPE_DOUBLE;
-		data_.double_value = value;
-	}
+	void fromBool(bool value);
 
-	void fromString(const std::string& value) {
-		Release();
-		type_ = TYPE_STRING;
-		data_.string_value = new std::string(value);
-	}
+	void fromInt(int value);
 
-	void fromString(const char* value,size_t len) {
-		Release();
-		type_ = TYPE_STRING;
-		data_.string_value = new std::string(value,len);
-	}
+	void fromInt64(int64_t value);
 
-	void fromUint8List(const uint8_t* data,size_t len) {
-		Release();
-		type_ = TYPE_BYTE_ARRAY;
-		data_.uint8list_value = new std::vector<uint8_t>(len,0);
-		for (size_t i = 0; i < len; i++)
-		{
-			(*data_.uint8list_value)[i] = data[i];
-		}
-	}
+	void fromDouble(double value);
 
-	void fromInt32List(const int32_t* data, size_t len) {
-		Release();
-		type_ = TYPE_INT_ARRAY;
-		data_.int32list_value = new std::vector<int32_t>(len, 0);
-		for (size_t i = 0; i < len; i++)
-		{
-			(*data_.int32list_value)[i] = data[i];
-		}
-	}
+	void fromString(const std::string& value);
 
-	void fromInt64List(const int64_t* data, size_t len) {
-		Release();
-		type_ = TYPE_LONG_ARRAY;
-		data_.int64list_value = new std::vector<int64_t>(len, 0);
-		for (size_t i = 0; i < len; i++)
-		{
-			(*data_.int64list_value)[i] = data[i];
-		}
-	}
+	void fromString(const char* value, size_t len);
 
-	void fromDoubleList(const double* data, size_t len) {
-		Release();
-		type_ = TYPE_LONG_ARRAY;
-		data_.doublelist_value = new std::vector<double>(len, 0);
-		for (size_t i = 0; i < len; i++)
-		{
-			(*data_.doublelist_value)[i] = data[i];
-		}
-	}
+	void fromUint8List(const uint8_t* data, size_t len);
+
+	void fromInt32List(const int32_t* data, size_t len);
+
+	void fromInt64List(const int64_t* data, size_t len);
+
+	void fromDoubleList(const double* data, size_t len);
+
+	//如果类型不正确强制转换为指定类型，如果仅获取使用as..
+	int& toInt();
+	int64_t& toInt64();
+	double& toDouble();
+	std::string& toString();
+	std::vector<uint8_t>& toUint8List();
+	std::vector<int32_t>& toInt32List();
+	std::vector<int64_t>& toInt64List();
+	std::vector<double>& toDoubleList();
+	std::vector<std::shared_ptr<StandardValue>>& toList();
+	std::map<std::string, std::shared_ptr<StandardValue>>& toMap();
 
 	//读写
 	void WriteValue(std::vector<uint8_t>& dest);
@@ -170,8 +126,8 @@ private:
 		std::vector<int32_t>* int32list_value;
 		std::vector<int64_t>* int64list_value;
 		std::vector<double>*  doublelist_value;
-		std::vector<StandardValue*>*  list_value;
-		std::map<std::string,StandardValue*>*  map_value;
+		std::vector<std::shared_ptr<StandardValue>>*  list_value;
+		std::map<std::string,std::shared_ptr<StandardValue>>*  map_value;
 	};
 	DataT data_;
 };

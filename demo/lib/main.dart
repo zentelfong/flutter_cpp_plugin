@@ -13,54 +13,50 @@ class PlatformChannel extends StatefulWidget {
 }
 
 class _PlatformChannelState extends State<PlatformChannel> {
-  static const MethodChannel methodChannel =
-      const MethodChannel('cppplugins.flutter.io/test_plugin',JSONMethodCodec());
-  static const EventChannel eventChannel =
-      const EventChannel('cppplugins.flutter.io/test_plugin',JSONMethodCodec());
+  MethodChannel jsonChannel = MethodChannel('cppplugins.flutter.io/json_plugin',JSONMethodCodec());
+  MethodChannel standardChannel = MethodChannel('cppplugins.flutter.io/standard_plugin'); 
+
 
   String _batteryLevel = 'Battery level: unknown.';
   String _chargingStatus = 'Battery status: unknown.';
 
-  Future<Null> _getBatteryLevel() async {
-    String batteryLevel;
-    try {
-      final String result = await methodChannel.invokeMethod('hello');
-      batteryLevel = 'Battery level: $result';
+  Future<Null> _testChannel() async {
+      {
+        final String strResult = await jsonChannel.invokeMethod('testString','world');
 
+        print('invoke json string result $strResult');
 
-    } on PlatformException {
-      batteryLevel = 'Failed to get battery level.';
-    }
-    setState(() {
-      _batteryLevel = batteryLevel;
-    });
+        final int intResult = await jsonChannel.invokeMethod('testInt',123456);
+
+        print('invoke json int result $intResult');
+
+      }
+
+      {
+        final String strResult = await standardChannel.invokeMethod('testString','world');
+
+        print('invoke standard string result $strResult');
+
+        final int intResult = await standardChannel.invokeMethod('testInt',123456);
+
+        print('invoke standard int result $intResult');
+      }
+
   }
 
   @override
   void initState() {
     super.initState();
 
-    methodChannel.setMethodCallHandler((MethodCall call){
-      print("call from cpp plugin");
-      print(call.method);
-      print(call.arguments);
+    jsonChannel.setMethodCallHandler((MethodCall call){
+      print("call from json plugin method ${call.method} arguments ${call.arguments}");
     });
 
-    //eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
-  }
-
-  void _onEvent(Object event) {
-    setState(() {
-      _chargingStatus =
-          "Battery status: ${event == 'test' ? '' : 'dis'}charging.";
+    standardChannel.setMethodCallHandler((MethodCall call){
+      print("call from standard plugin method ${call.method} arguments ${call.arguments}");
     });
   }
 
-  void _onError(Object error) {
-    setState(() {
-      _chargingStatus = 'Battery status: unknown.';
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +67,12 @@ class _PlatformChannelState extends State<PlatformChannel> {
           new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Text(_batteryLevel, key: const Key('Battery level label')),
+              new Text(_batteryLevel),
               new Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: new RaisedButton(
-                  child: const Text('Refresh'),
-                  onPressed: _getBatteryLevel,
+                  child: const Text('test plugin'),
+                  onPressed: _testChannel,
                 ),
               ),
             ],
