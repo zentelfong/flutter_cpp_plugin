@@ -41,7 +41,6 @@ public:
 
   virtual void SuccessInternal(const void *result)
   {
-      //调用java中BinaryReply的reply函数
       std::unique_ptr<std::vector<uint8_t>> data = m_plugin->GetCodec().EncodeSuccessEnvelope(result);
       Reply(data->data(),data->size());
   }
@@ -50,7 +49,6 @@ public:
                           const std::string &error_message,
                           const void *error_details)
   {
-      //调用java中BinaryReply的reply函数
       std::unique_ptr<std::vector<uint8_t>> data = m_plugin->GetCodec().EncodeErrorEnvelope(
                                   error_code,error_message,error_details);
       Reply(data->data(),data->size());

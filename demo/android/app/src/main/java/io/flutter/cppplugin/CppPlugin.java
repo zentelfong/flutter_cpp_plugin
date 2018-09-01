@@ -33,9 +33,11 @@ public class CppPlugin{
   }
 
 
-  public static void invokeMethodCall(String channel, ByteBuffer message)
+  public static void invokeMethodCall(String channel,byte[] bytes)
   {
-    sMessenger.send(channel,message);
+    final ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
+    buffer.put(bytes);    
+    sMessenger.send(channel,buffer);
   }
 
 
