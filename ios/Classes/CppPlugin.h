@@ -3,8 +3,6 @@
 
 @interface FLTCppPlugin : NSObject
 
-+ (FLTCppPlugin *) getInstance;
-
-- (void)initPlugin:(FlutterBinaryMessenger*) messenger;
++ (void)initPlugin:(NSObject<FlutterBinaryMessenger>*) messenger;
 
 @end

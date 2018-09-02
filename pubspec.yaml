@@ -1,0 +1,19 @@
+name: flutter_cpp_plugin
+description: Flutter plugin providing away to comunicate with cplusplus.
+author: Flutter Team <flutter-dev@googlegroups.com>
+homepage: www.example.com
+version: 0.1.0
+
+flutter:
+  plugin:
+    androidPackage: io.flutter.cppplugin
+    iosPrefix: FLT
+    pluginClass: CppPlugin
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+environment:
+  sdk: ">=2.0.0-dev.28.0 <3.0.0"
+  flutter: ">=0.1.4 <2.0.0"

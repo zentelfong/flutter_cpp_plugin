@@ -1,28 +1,19 @@
 #import "CppPlugin.h"
-#include "plugin_manager.h"
+#include <plugin_manager.h>
 #include <stdio.h>
 
 @implementation FLTCppPlugin
-{
-  FlutterBinaryMessenger* messenger;
-}
 
-static FLTCppPlugin* instance = nil;
+static NSObject<FlutterBinaryMessenger> * sMessenger=nil;
+static FLTCppPlugin* sInstance = nil;
 
-+(FLTCppPlugin *) getInstance{
-  if (instance == nil) {
-      instance = [[FLTCppPlugin alloc] init];
-  }
-  return instance;
-}
-
-- (void)initPlugin:(FlutterBinaryMessenger*) messenger{
-  _messenger=messenger;
++ (void)initPlugin:(NSObject<FlutterBinaryMessenger>*) messenger{
+  sMessenger=messenger;
   plugin_main();
 }
 
-- (FlutterBinaryMessenger*)getMessenger{
-  return _messenger;
++ (NSObject<FlutterBinaryMessenger>*)getMessenger{
+  return sMessenger;
 }
 @end
 
@@ -61,7 +52,7 @@ public:
 
   void Reply(const uint8_t* data,size_t len)
   {
-    NSData* nsdata=null;
+    NSData* nsdata=NULL;
     if(data)
     {
       nsdata = [NSData dataWithBytes:data length:len];
@@ -71,12 +62,12 @@ public:
 
 private:
   Plugin* m_plugin;
-  FlutterBinaryReply m_reply
+  FlutterBinaryReply m_reply;
 };
 
 
 
-PluginManagerIos* s_manager=NULL;
+class PluginManagerIos* s_manager=NULL;
 
 class PluginManagerIos:public PluginManager
 {
@@ -90,7 +81,8 @@ public:
   {
     PluginManager::RegisterPlugin(plugin);
 
-    FlutterBinaryMessenger* messenger = [[FLTCppPlugin getInstance] getMessenger];
+    NSObject<FlutterBinaryMessenger>* messenger = [FLTCppPlugin getMessenger];
+      
     if(!messenger)
     {
       printf("FLTCppPlugin not inited");
@@ -103,7 +95,7 @@ public:
     FlutterBinaryMessageHandler handler=^(NSData* _Nullable message, FlutterBinaryReply reply){
 
       std::unique_ptr<MethodResult> method_result = std::make_unique<MethodResultIos>(plugin,reply);
-      PluginManager::Instance()->HandleMethodCall(channel,[message bytes],message->length,std::move(method_result));
+      PluginManager::Instance()->HandleMethodCall(channel,(const uint8_t*)message.bytes,message.length,std::move(method_result));
     };
     [messenger setMessageHandlerOnChannel:nschannel binaryMessageHandler:handler];
   }
@@ -111,7 +103,7 @@ public:
   virtual void UnRegisterPlugin(Plugin* plugin)
   {
     PluginManager::UnRegisterPlugin(plugin);
-    FlutterBinaryMessenger* messenger = [[FLTCppPlugin getInstance] getMessenger];
+    NSObject<FlutterBinaryMessenger>* messenger = [FLTCppPlugin getMessenger];
     if(!messenger)
     {
       printf("FLTCppPlugin not inited");
@@ -119,19 +111,19 @@ public:
     }
     std::string channel = plugin->channel();
     NSString *nschannel= [NSString stringWithCString:channel.c_str() encoding:NSUTF8StringEncoding];   
-    [messenger setMessageHandlerOnChannel:nschannel binaryMessageHandler:null];
+    [messenger setMessageHandlerOnChannel:nschannel binaryMessageHandler:NULL];
   }
 
   virtual void InvokeMethodCall(const std::string &channel,const uint8_t* data,size_t len)
   {
-    FlutterBinaryMessenger* messenger = [[FLTCppPlugin getInstance] getMessenger];
+    NSObject<FlutterBinaryMessenger>* messenger = [FLTCppPlugin getMessenger];
     if(!messenger)
     {
       printf("FLTCppPlugin not inited");
       return;
     }
     NSString *nschannel= [NSString stringWithCString:channel.c_str() encoding:NSUTF8StringEncoding];
-    NSData *nsdata = null;
+    NSData *nsdata = NULL;
     if(data)
       nsdata = [NSData dataWithBytes:data length:len];
     [messenger sendOnChannel:nschannel message:nsdata];

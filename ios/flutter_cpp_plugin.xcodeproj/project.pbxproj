@@ -1,0 +1,461 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FE7696E7213A8D2900892C07 /* CppPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE7696E6213A8D2900892C07 /* CppPlugin.mm */; };
+		FE769715213A8D9500892C07 /* method_call.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769703213A8D9400892C07 /* method_call.cc */; };
+		FE769716213A8D9500892C07 /* standard_method_call.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769704213A8D9400892C07 /* standard_method_call.cc */; };
+		FE769717213A8D9500892C07 /* method_result.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769705213A8D9400892C07 /* method_result.cc */; };
+		FE769718213A8D9500892C07 /* standard_value.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769706213A8D9400892C07 /* standard_value.cc */; };
+		FE769719213A8D9500892C07 /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE769708213A8D9400892C07 /* json_writer.cpp */; };
+		FE76971A213A8D9500892C07 /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE769709213A8D9400892C07 /* json_reader.cpp */; };
+		FE76971B213A8D9500892C07 /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE76970B213A8D9400892C07 /* json_value.cpp */; };
+		FE76971C213A8D9500892C07 /* standard_method_codec.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE76970D213A8D9400892C07 /* standard_method_codec.cc */; };
+		FE76971D213A8D9500892C07 /* method_codec.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE76970E213A8D9400892C07 /* method_codec.cc */; };
+		FE76971E213A8D9500892C07 /* json_method_codec.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE76970F213A8D9400892C07 /* json_method_codec.cc */; };
+		FE76971F213A8D9500892C07 /* plugin_manager.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769710213A8D9400892C07 /* plugin_manager.cc */; };
+		FE769720213A8D9500892C07 /* plugin.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769711213A8D9400892C07 /* plugin.cc */; };
+		FE769721213A8D9500892C07 /* standard_plugin.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769712213A8D9400892C07 /* standard_plugin.cc */; };
+		FE769722213A8D9500892C07 /* json_method_call.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769713213A8D9400892C07 /* json_method_call.cc */; };
+		FE769723213A8D9500892C07 /* json_plugin.cc in Sources */ = {isa = PBXBuildFile; fileRef = FE769714213A8D9500892C07 /* json_plugin.cc */; };
+		FE769728213A8EBC00892C07 /* Flutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE769727213A8EBC00892C07 /* Flutter.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FE7696D7213A8CD600892C07 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FE7696D9213A8CD600892C07 /* libflutter_cpp_plugin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libflutter_cpp_plugin.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE7696E5213A8D2900892C07 /* CppPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CppPlugin.h; path = Classes/CppPlugin.h; sourceTree = SOURCE_ROOT; };
+		FE7696E6213A8D2900892C07 /* CppPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CppPlugin.mm; path = Classes/CppPlugin.mm; sourceTree = SOURCE_ROOT; };
+		FE7696EA213A8D4A00892C07 /* method_call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = method_call.h; path = ../include/method_call.h; sourceTree = "<group>"; };
+		FE7696EB213A8D4A00892C07 /* standard_method_call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = standard_method_call.h; path = ../include/standard_method_call.h; sourceTree = "<group>"; };
+		FE7696EC213A8D4B00892C07 /* plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = plugin.h; path = ../include/plugin.h; sourceTree = "<group>"; };
+		FE7696ED213A8D4B00892C07 /* json_method_codec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json_method_codec.h; path = ../include/json_method_codec.h; sourceTree = "<group>"; };
+		FE7696EE213A8D4B00892C07 /* standard_method_codec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = standard_method_codec.h; path = ../include/standard_method_codec.h; sourceTree = "<group>"; };
+		FE7696EF213A8D4B00892C07 /* json_method_call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json_method_call.h; path = ../include/json_method_call.h; sourceTree = "<group>"; };
+		FE7696F0213A8D4B00892C07 /* standard_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = standard_plugin.h; path = ../include/standard_plugin.h; sourceTree = "<group>"; };
+		FE7696F1213A8D4B00892C07 /* method_result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = method_result.h; path = ../include/method_result.h; sourceTree = "<group>"; };
+		FE7696F2213A8D4B00892C07 /* json_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json_plugin.h; path = ../include/json_plugin.h; sourceTree = "<group>"; };
+		FE7696F3213A8D4B00892C07 /* standard_value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = standard_value.h; path = ../include/standard_value.h; sourceTree = "<group>"; };
+		FE7696F4213A8D4B00892C07 /* method_codec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = method_codec.h; path = ../include/method_codec.h; sourceTree = "<group>"; };
+		FE7696F5213A8D4B00892C07 /* plugin_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = plugin_manager.h; path = ../include/plugin_manager.h; sourceTree = "<group>"; };
+		FE7696F6213A8D5C00892C07 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../include/json/config.h; sourceTree = "<group>"; };
+		FE7696F7213A8D5C00892C07 /* features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = features.h; path = ../include/json/features.h; sourceTree = "<group>"; };
+		FE7696F8213A8D5C00892C07 /* value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = value.h; path = ../include/json/value.h; sourceTree = "<group>"; };
+		FE7696F9213A8D5C00892C07 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../include/json/version.h; sourceTree = "<group>"; };
+		FE7696FA213A8D5C00892C07 /* allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = allocator.h; path = ../include/json/allocator.h; sourceTree = "<group>"; };
+		FE7696FB213A8D5C00892C07 /* forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = forwards.h; path = ../include/json/forwards.h; sourceTree = "<group>"; };
+		FE7696FC213A8D5D00892C07 /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = autolink.h; path = ../include/json/autolink.h; sourceTree = "<group>"; };
+		FE7696FD213A8D5D00892C07 /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = writer.h; path = ../include/json/writer.h; sourceTree = "<group>"; };
+		FE7696FE213A8D5D00892C07 /* assertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = assertions.h; path = ../include/json/assertions.h; sourceTree = "<group>"; };
+		FE7696FF213A8D5D00892C07 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json.h; path = ../include/json/json.h; sourceTree = "<group>"; };
+		FE769700213A8D5D00892C07 /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reader.h; path = ../include/json/reader.h; sourceTree = "<group>"; };
+		FE769703213A8D9400892C07 /* method_call.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = method_call.cc; path = ../src/method_call.cc; sourceTree = "<group>"; };
+		FE769704213A8D9400892C07 /* standard_method_call.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = standard_method_call.cc; path = ../src/standard_method_call.cc; sourceTree = "<group>"; };
+		FE769705213A8D9400892C07 /* method_result.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = method_result.cc; path = ../src/method_result.cc; sourceTree = "<group>"; };
+		FE769706213A8D9400892C07 /* standard_value.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = standard_value.cc; path = ../src/standard_value.cc; sourceTree = "<group>"; };
+		FE769708213A8D9400892C07 /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_writer.cpp; sourceTree = "<group>"; };
+		FE769709213A8D9400892C07 /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_reader.cpp; sourceTree = "<group>"; };
+		FE76970A213A8D9400892C07 /* json_tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json_tool.h; sourceTree = "<group>"; };
+		FE76970B213A8D9400892C07 /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json_value.cpp; sourceTree = "<group>"; };
+		FE76970C213A8D9400892C07 /* json_valueiterator.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = json_valueiterator.inl; sourceTree = "<group>"; };
+		FE76970D213A8D9400892C07 /* standard_method_codec.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = standard_method_codec.cc; path = ../src/standard_method_codec.cc; sourceTree = "<group>"; };
+		FE76970E213A8D9400892C07 /* method_codec.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = method_codec.cc; path = ../src/method_codec.cc; sourceTree = "<group>"; };
+		FE76970F213A8D9400892C07 /* json_method_codec.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_method_codec.cc; path = ../src/json_method_codec.cc; sourceTree = "<group>"; };
+		FE769710213A8D9400892C07 /* plugin_manager.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = plugin_manager.cc; path = ../src/plugin_manager.cc; sourceTree = "<group>"; };
+		FE769711213A8D9400892C07 /* plugin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = plugin.cc; path = ../src/plugin.cc; sourceTree = "<group>"; };
+		FE769712213A8D9400892C07 /* standard_plugin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = standard_plugin.cc; path = ../src/standard_plugin.cc; sourceTree = "<group>"; };
+		FE769713213A8D9400892C07 /* json_method_call.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_method_call.cc; path = ../src/json_method_call.cc; sourceTree = "<group>"; };
+		FE769714213A8D9500892C07 /* json_plugin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_plugin.cc; path = ../src/json_plugin.cc; sourceTree = "<group>"; };
+		FE769727213A8EBC00892C07 /* Flutter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Flutter.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FE7696D6213A8CD600892C07 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE769728213A8EBC00892C07 /* Flutter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FE7696D0213A8CD600892C07 = {
+			isa = PBXGroup;
+			children = (
+				FE769701213A8D6300892C07 /* src */,
+				FE7696E8213A8D3000892C07 /* include */,
+				FE7696DB213A8CD600892C07 /* flutter_cpp_plugin */,
+				FE7696DA213A8CD600892C07 /* Products */,
+				FE769726213A8EBC00892C07 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		FE7696DA213A8CD600892C07 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FE7696D9213A8CD600892C07 /* libflutter_cpp_plugin.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FE7696DB213A8CD600892C07 /* flutter_cpp_plugin */ = {
+			isa = PBXGroup;
+			children = (
+				FE7696E5213A8D2900892C07 /* CppPlugin.h */,
+				FE7696E6213A8D2900892C07 /* CppPlugin.mm */,
+			);
+			path = flutter_cpp_plugin;
+			sourceTree = "<group>";
+		};
+		FE7696E8213A8D3000892C07 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				FE7696EF213A8D4B00892C07 /* json_method_call.h */,
+				FE7696ED213A8D4B00892C07 /* json_method_codec.h */,
+				FE7696F2213A8D4B00892C07 /* json_plugin.h */,
+				FE7696EA213A8D4A00892C07 /* method_call.h */,
+				FE7696F4213A8D4B00892C07 /* method_codec.h */,
+				FE7696F1213A8D4B00892C07 /* method_result.h */,
+				FE7696F5213A8D4B00892C07 /* plugin_manager.h */,
+				FE7696EC213A8D4B00892C07 /* plugin.h */,
+				FE7696EB213A8D4A00892C07 /* standard_method_call.h */,
+				FE7696EE213A8D4B00892C07 /* standard_method_codec.h */,
+				FE7696F0213A8D4B00892C07 /* standard_plugin.h */,
+				FE7696F3213A8D4B00892C07 /* standard_value.h */,
+				FE7696E9213A8D3800892C07 /* json */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		FE7696E9213A8D3800892C07 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				FE7696FA213A8D5C00892C07 /* allocator.h */,
+				FE7696FE213A8D5D00892C07 /* assertions.h */,
+				FE7696FC213A8D5D00892C07 /* autolink.h */,
+				FE7696F6213A8D5C00892C07 /* config.h */,
+				FE7696F7213A8D5C00892C07 /* features.h */,
+				FE7696FB213A8D5C00892C07 /* forwards.h */,
+				FE7696FF213A8D5D00892C07 /* json.h */,
+				FE769700213A8D5D00892C07 /* reader.h */,
+				FE7696F8213A8D5C00892C07 /* value.h */,
+				FE7696F9213A8D5C00892C07 /* version.h */,
+				FE7696FD213A8D5D00892C07 /* writer.h */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
+		FE769701213A8D6300892C07 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FE769713213A8D9400892C07 /* json_method_call.cc */,
+				FE76970F213A8D9400892C07 /* json_method_codec.cc */,
+				FE769714213A8D9500892C07 /* json_plugin.cc */,
+				FE769707213A8D9400892C07 /* libjson */,
+				FE769703213A8D9400892C07 /* method_call.cc */,
+				FE76970E213A8D9400892C07 /* method_codec.cc */,
+				FE769705213A8D9400892C07 /* method_result.cc */,
+				FE769710213A8D9400892C07 /* plugin_manager.cc */,
+				FE769711213A8D9400892C07 /* plugin.cc */,
+				FE769704213A8D9400892C07 /* standard_method_call.cc */,
+				FE76970D213A8D9400892C07 /* standard_method_codec.cc */,
+				FE769712213A8D9400892C07 /* standard_plugin.cc */,
+				FE769706213A8D9400892C07 /* standard_value.cc */,
+				FE769702213A8D6900892C07 /* libjson */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		FE769702213A8D6900892C07 /* libjson */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = libjson;
+			sourceTree = "<group>";
+		};
+		FE769707213A8D9400892C07 /* libjson */ = {
+			isa = PBXGroup;
+			children = (
+				FE769708213A8D9400892C07 /* json_writer.cpp */,
+				FE769709213A8D9400892C07 /* json_reader.cpp */,
+				FE76970A213A8D9400892C07 /* json_tool.h */,
+				FE76970B213A8D9400892C07 /* json_value.cpp */,
+				FE76970C213A8D9400892C07 /* json_valueiterator.inl */,
+			);
+			name = libjson;
+			path = ../src/libjson;
+			sourceTree = "<group>";
+		};
+		FE769726213A8EBC00892C07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE769727213A8EBC00892C07 /* Flutter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FE7696D8213A8CD600892C07 /* flutter_cpp_plugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE7696E2213A8CD600892C07 /* Build configuration list for PBXNativeTarget "flutter_cpp_plugin" */;
+			buildPhases = (
+				FE7696D5213A8CD600892C07 /* Sources */,
+				FE7696D6213A8CD600892C07 /* Frameworks */,
+				FE7696D7213A8CD600892C07 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = flutter_cpp_plugin;
+			productName = flutter_cpp_plugin;
+			productReference = FE7696D9213A8CD600892C07 /* libflutter_cpp_plugin.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FE7696D1213A8CD600892C07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = antuan;
+				TargetAttributes = {
+					FE7696D8213A8CD600892C07 = {
+						CreatedOnToolsVersion = 9.3;
+					};
+				};
+			};
+			buildConfigurationList = FE7696D4213A8CD600892C07 /* Build configuration list for PBXProject "flutter_cpp_plugin" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FE7696D0213A8CD600892C07;
+			productRefGroup = FE7696DA213A8CD600892C07 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FE7696D8213A8CD600892C07 /* flutter_cpp_plugin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FE7696D5213A8CD600892C07 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE769715213A8D9500892C07 /* method_call.cc in Sources */,
+				FE769721213A8D9500892C07 /* standard_plugin.cc in Sources */,
+				FE769720213A8D9500892C07 /* plugin.cc in Sources */,
+				FE76971D213A8D9500892C07 /* method_codec.cc in Sources */,
+				FE76971F213A8D9500892C07 /* plugin_manager.cc in Sources */,
+				FE769718213A8D9500892C07 /* standard_value.cc in Sources */,
+				FE76971A213A8D9500892C07 /* json_reader.cpp in Sources */,
+				FE769722213A8D9500892C07 /* json_method_call.cc in Sources */,
+				FE769716213A8D9500892C07 /* standard_method_call.cc in Sources */,
+				FE76971E213A8D9500892C07 /* json_method_codec.cc in Sources */,
+				FE769723213A8D9500892C07 /* json_plugin.cc in Sources */,
+				FE7696E7213A8D2900892C07 /* CppPlugin.mm in Sources */,
+				FE76971C213A8D9500892C07 /* standard_method_codec.cc in Sources */,
+				FE76971B213A8D9500892C07 /* json_value.cpp in Sources */,
+				FE769719213A8D9500892C07 /* json_writer.cpp in Sources */,
+				FE769717213A8D9500892C07 /* method_result.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FE7696E0213A8CD600892C07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FE7696E1213A8CD600892C07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FE7696E3213A8CD600892C07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5H6F8S6U4P;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = ../include;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FE7696E4213A8CD600892C07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5H6F8S6U4P;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = ../include;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FE7696D4213A8CD600892C07 /* Build configuration list for PBXProject "flutter_cpp_plugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE7696E0213A8CD600892C07 /* Debug */,
+				FE7696E1213A8CD600892C07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE7696E2213A8CD600892C07 /* Build configuration list for PBXNativeTarget "flutter_cpp_plugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE7696E3213A8CD600892C07 /* Debug */,
+				FE7696E4213A8CD600892C07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FE7696D1213A8CD600892C07 /* Project object */;
+}
