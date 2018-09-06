@@ -23,7 +23,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
   Future<Null> _testChannel() async {
       {
         final String strResult = await jsonChannel.invokeMethod('testString','world');
-
+        
         print('invoke json string result $strResult');
 
         final int intResult = await jsonChannel.invokeMethod('testInt',123456);
@@ -66,6 +66,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
         children: <Widget>[
           new Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               new Text(_batteryLevel),
               new Padding(
@@ -73,6 +74,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
                 child: new RaisedButton(
                   child: const Text('test plugin'),
                   onPressed: _testChannel,
+                  elevation: 2.0,
                 ),
               ),
             ],

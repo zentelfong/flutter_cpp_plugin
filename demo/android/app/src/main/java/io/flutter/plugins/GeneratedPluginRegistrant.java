@@ -1,6 +1,7 @@
 package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
+import io.flutter.cppplugin.CppPlugin;
 
 /**
  * Generated file. Do not edit.
@@ -10,6 +11,7 @@ public final class GeneratedPluginRegistrant {
     if (alreadyRegisteredWith(registry)) {
       return;
     }
+    CppPlugin.registerWith(registry.registrarFor("io.flutter.cppplugin.CppPlugin"));
   }
 
   private static boolean alreadyRegisteredWith(PluginRegistry registry) {

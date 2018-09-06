@@ -2,7 +2,6 @@
 #import <Flutter/Flutter.h>
 
 @interface FLTCppPlugin : NSObject
-
-+ (void)initPlugin:(NSObject<FlutterBinaryMessenger>*) messenger;
-
+//注册插件
++ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar;
 @end

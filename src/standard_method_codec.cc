@@ -34,6 +34,11 @@ std::unique_ptr<std::vector<uint8_t>> StandardMethodCodec::EncodeMethodCallInter
 	StandardValue* pvalue = (StandardValue*)method_call.arguments();
 	if (pvalue)
 		pvalue->WriteValue(*data);
+	else
+	{
+		StandardValue nil;
+		nil.WriteValue(*data);
+	}
 	return data;
 }
 
@@ -47,7 +52,11 @@ std::unique_ptr<std::vector<uint8_t>> StandardMethodCodec::EncodeSuccessEnvelope
 	StandardValue* pvalue = (StandardValue*)result;
 	if (pvalue)
 		pvalue->WriteValue(*data);
-
+	else
+	{
+		StandardValue nil;
+		nil.WriteValue(*data);
+	}
 	return data;
 }
 
@@ -67,7 +76,11 @@ std::unique_ptr<std::vector<uint8_t>> StandardMethodCodec::EncodeErrorEnvelopeIn
 	StandardValue* pvalue = (StandardValue*)error_details;
 	if(pvalue)
 		pvalue->WriteValue(*data);
-
+	else
+	{
+		StandardValue nil;
+		nil.WriteValue(*data);
+	}
 	return data;
 }
 

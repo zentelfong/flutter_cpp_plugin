@@ -4,6 +4,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := flutter_cpp_plugin
 
+
 LOCAL_SRC_FILES := cpp_plugin_jni.cpp\
 	jni_unity.cpp \
     ../../src/json_method_call.cc \
@@ -21,11 +22,13 @@ LOCAL_SRC_FILES := cpp_plugin_jni.cpp\
 	../../src/libjson/json_reader.cpp \
 	../../src/libjson/json_value.cpp \
 	../../src/libjson/json_writer.cpp \
-	../../example/example.cpp \
+	../../plugins/example.cpp \
 
 
 LOCAL_C_INCLUDES := ../../include
 
 LOCAL_LDLIBS    := -llog
 
+	
 include $(BUILD_SHARED_LIBRARY)
+

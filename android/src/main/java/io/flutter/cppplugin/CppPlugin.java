@@ -14,7 +14,12 @@ public class CppPlugin{
 
   public static BinaryMessenger sMessenger;
 
-  /** Plugin registration. */
+  public static void registerWith(Registrar registrar) {
+    sMessenger=registrar.messenger();
+    mainJni();
+  }  
+  
+  
   public static void registerWith(PluginRegistry registry) {
     if (alreadyRegisteredWith(registry)) {
       return;

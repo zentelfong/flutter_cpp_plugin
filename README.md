@@ -1,36 +1,64 @@
 # flutter_cpp_plugin
 
 #### 项目介绍
-flutter直接和c++通讯插件
-
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1. xxxx
-2. xxxx
-3. xxxx
+使用C++编写flutter插件，支持android,ios平台。
 
 #### 使用说明
 
-###### 安卓
+在pubspec.yaml文件中添加 
 
-1. 将android下的src/main/java文件夹拷贝到项目中的android/app/src/main/java目录下。
-2. 进入android/jni目录下调用ndk-build编译库，你的c++/c代码可以添加到Android.mk一起编译。
-3. 编译完成，将android/libs内所有文件拷贝到项目中android/app/src/main/jniLibs目录下。
-4. 在MainActivity.java中添加
 ```
-import io.flutter.cppplugin.CppPlugin;
-
-onCreate函数中添加
-CppPlugin.registerWith(this);
+flutter_cpp_plugin:
+    path: flutter_cpp_plugin所在目录
 
 ```
 
-###### IOS
-
-1. 暂无
+将你的c++代码添加到plugins文件夹内。
 
 
+#### 代码示例
+
+
+C++代码
+
+```C++
+
+class TestPlugin:public JsonPlugin
+{
+public:
+  TestPlugin()
+    :JsonPlugin("cppplugins.flutter.io/json_plugin")
+  {
+
+  }
+
+  virtual void HandleJsonMethodCall(const JsonMethodCall &method_call,
+        std::unique_ptr<MethodResult> result)
+  {
+    if(method_call.method_name() == "hello")
+    {
+      Json::Value value=method_call.GetArgumentsAsJson();
+      result->Success(&value);
+
+      //调用dart
+      InvokeMethod("hello",value);
+    }
+  }
+};
+
+```
+
+dart代码
+
+```dart
+
+MethodChannel jsonChannel = MethodChannel('cppplugins.flutter.io/json_plugin',JSONMethodCodec());
+
+jsonChannel.setMethodCallHandler((MethodCall call){
+    print("call from cpp plugin method ${call.method} arguments ${call.arguments}");
+});
+
+final String strResult = await jsonChannel.invokeMethod('hello','world');
+assert(strResult=="world");
+
+```

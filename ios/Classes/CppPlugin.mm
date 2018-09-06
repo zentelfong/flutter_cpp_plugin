@@ -5,10 +5,9 @@
 @implementation FLTCppPlugin
 
 static NSObject<FlutterBinaryMessenger> * sMessenger=nil;
-static FLTCppPlugin* sInstance = nil;
 
-+ (void)initPlugin:(NSObject<FlutterBinaryMessenger>*) messenger{
-  sMessenger=messenger;
++ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar{
+  sMessenger=registrar.messenger;
   plugin_main();
 }
 

@@ -31,7 +31,20 @@
 *.out
 *.app
 
+*.packages
+pubspec.lock
+*.flutter-plugins
+
 libs/
 obj/
 build/
 .gradle/
+
+ios/Classes/
+!CppPlugin.h
+!CppPlugin.mm
+
+
+
+
+

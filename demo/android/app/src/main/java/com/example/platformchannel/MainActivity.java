@@ -33,7 +33,6 @@ public class MainActivity extends FlutterActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     GeneratedPluginRegistrant.registerWith(this);
-    CppPlugin.registerWith(this);
 
     new EventChannel(getFlutterView(), CHARGING_CHANNEL).setStreamHandler(
         new StreamHandler() {

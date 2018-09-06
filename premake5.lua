@@ -9,8 +9,8 @@ solution "flutter_cpp_plugin"
 project "flutter_cpp_plugin"
 	language "C++"
 	kind "StaticLib"
-	includedirs { "include"}
-	files { "include/**.h","src/**.cpp","src/**.cc","example/**.cpp" }
+	includedirs { "include","thirdparty/zbar/include"}
+	files { "include/**.h","src/**.cpp","src/**.cc","plugins/**.cpp" }
 	targetdir("build")
 	defines { "_CRT_SECURE_NO_WARNINGS" }
 	
@@ -21,6 +21,4 @@ project "flutter_cpp_plugin"
 	configuration "Release"
 		defines { "NDEBUG" }
 		flags { "Optimize", "ExtraWarnings"}
-
-		
 

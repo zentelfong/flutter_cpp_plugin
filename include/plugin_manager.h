@@ -8,8 +8,6 @@
 
 namespace cpp_plugin {
 
-class Plugin;
-
 //管理插件
 class PluginManager
 {

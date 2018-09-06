@@ -13,10 +13,12 @@ A new flutter cplusplus plugin project.
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
 
-  s.header_dir = '../include'
-  s.source_files = '../src/libjson/*','../src/*.cc','Classes/**/*','../example/*'
-  s.public_header_files = 'Classes/**/*.h','../include/json/*.h','../include/*.h'
+  s.header_dir = 'Classes'
+  s.source_files = 'Classes/**/*.{m,c,cc,cpp,h,hpp}'
+  s.public_header_files = 'Classes/*.h', 'Classes/json/*.h'
 
+  #s.exclude_files = ''
+  
   s.dependency 'Flutter'
   
   s.ios.deployment_target = '8.0'
